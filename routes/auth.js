@@ -5,13 +5,15 @@ const bcrypt = require('bcrypt')
 
 /* GET home page. */
 router.post('/auth', function(req, res, next) {
+    const password = bcrypt.hash(req.body.password, 4)
     const setCookies = (req, res) => {
-    res.cookie("connected", bcrypt.hash(req.body.password, 4){
+    res.cookie("connected", password, {
       httpOnly: true,
       secure: true,
       signed: true
     })
     res.json({
+      password: password,
       message: "Enjoy!"
     })
   }
