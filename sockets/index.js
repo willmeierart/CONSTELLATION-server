@@ -19,22 +19,14 @@ module.exports = function(io) {
 
   io.on('connection', function (socket) {
     console.log('Client connected:', socket.id);
-
     socket.on('action', (action)=> {
-      // console.log(action)
-      if(action.type === 'server/import_master_update'){
-        // console.log(action)
-        io.emit('action', {type:'export_master_update', data:action})
+      if(action.type === 'server/export_master_update'){
+        socket.broadcast.emit('action', {type:'server/import_master_update', data:action.payload})
       }
     })
 
     socket.on('disconnect', function (data) {
       console.log('Client disconnected:', socket.id);
     });
-
-    // socket.on('hello', function (data) {
-    //   console.log(data);
-    //   io.emit('hello', data);
-    // });
   });
 }
