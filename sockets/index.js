@@ -21,7 +21,7 @@ module.exports = function(io) {
     console.log('Client connected:', socket.id);
     socket.on('action', (action)=> {
       if(action.type === 'server/export_master_update'){
-        socket.broadcast.emit('action', {type:'server/import_master_update', data:action.payload})
+        io.emit('action', {type:'server/import_master_update', data:action.payload})
       }
     })
 
