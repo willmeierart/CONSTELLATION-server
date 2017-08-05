@@ -11,11 +11,14 @@ module.exports = function(io) {
   }
 
   let realArray = initializeArray()
+  let concurrentUsers = 0
 
   io.on('connection', function (socket) {
     console.log('Client connected:', socket.id);
     //send array state to user on making socket connection
     socket.broadcast.to(socket.id).emit('action', {type:'server/import_master_update', data: realArray})
+    concurrentUsers++
+    io.emit('users', {concurrentUsers: concurrentUsers})
 
     socket.on('action', (action)=> {
       if(action.type === 'server/export_master_update'){
@@ -26,6 +29,8 @@ module.exports = function(io) {
 
     socket.on('disconnect', function (data) {
       console.log('Client disconnected:', socket.id);
+      concurrentUsers--
+      io.emit('users', {concurrentUsers: concurrentUsers})
     });
   });
 }
