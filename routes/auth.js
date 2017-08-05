@@ -8,7 +8,7 @@ router.post('/auth', function(req, res, next) {
     const password = bcrypt.hash(req.body.password, 4)
     const storedPassword = bcrypt.hash(process.env.PASSWORD, 4)
     const setCookies = (req, res) => {
-    res.cookie("connected", password, {
+    res.cookie("connected", bcrypt.hash(req.body.password, 4), {
       httpOnly: true,
       secure: true,
       signed: true
