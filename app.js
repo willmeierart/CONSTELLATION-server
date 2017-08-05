@@ -18,7 +18,10 @@ const sockets = require('./sockets');
 
 sockets(io);
 
-app.use(cors())
+app.use(cors({
+  credentials: true,
+  origin: '*'
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

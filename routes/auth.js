@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt')
 
 /* GET home page. */
 router.post('/auth', function(req, res, next) {
+    const password = bcrypt.hash(req.body.password, 4)
+    const storedPassword = bcrypt.hash(process.env.PASSWORD, 4)
     const setCookies = (req, res) => {
     res.cookie("connected", bcrypt.hash(req.body.password, 4), {
       httpOnly: true,
@@ -12,14 +14,18 @@ router.post('/auth', function(req, res, next) {
       signed: true
     })
     res.json({
+      password: password,
       message: "Enjoy!"
     })
   }
-  if(req.body.password == process.env.PASSWORD){
-    setCookies(req, res)
-  } else {
-    next(new Error("Invalid Password"))
-  }
-});
+  bcrypt.compare(password, storedPassword)
+    .then(result => {
+      if(result){
+        setCookies(req, res)
+      } else {
+        next(new Error("Invalid Password"))
+      }
+    })
+  })
 
 module.exports = router;
