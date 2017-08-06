@@ -24,8 +24,14 @@ module.exports = function(io) {
 
     socket.on('action', (action)=> {
       if(action.type === 'server/export_master_update'){
+        console.log(converter(action.payload))
         realArray[action.payload.index] = action.payload.data
-        io.emit('update', converter(action.payload))
+        //io.emit('update', converter(action.payload))
+        //io.emit('update', {index: action.payload.index, data: action.payload.data})
+        let data = converter(action.payload)
+        if(data){
+          io.emit('update', {data: data})
+        }
         io.emit('action', {type:'server/import_master_update', data: realArray})
       }
     })
@@ -38,6 +44,7 @@ module.exports = function(io) {
   });
 
   function converter(input){
+    if (input.data){
     const index = input.index
     const color = input.data.backgroundColor
     const findMultiDimArray=(i)=>{
@@ -49,11 +56,14 @@ module.exports = function(io) {
         RGBdata.x= i %64
       }
       RGBdata.y = (i-RGBdata.x)/64
-      console.log(RGBdata)
+      //console.log(RGBdata)
       return RGBdata
     }
     const rgb = color.match(/\d+/g)
-    const output = [findMultiDimArray(index).x, findMultiDimArray(index).y, rgb[0], rgb[1], rgb[2]]
+    const output = [findMultiDimArray(index).x, findMultiDimArray(index).y, parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2])]
     return output
+  } else {
+    return [ 0, 0, 0, 0, 0 ]
+  }
   }
 }
