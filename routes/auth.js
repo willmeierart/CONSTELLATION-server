@@ -18,6 +18,6 @@ router.post('/', function(req, res, next) {
   } else {
     next(new Error("Invalid Password"))
   }
-});
+  })
 
 module.exports = router;
