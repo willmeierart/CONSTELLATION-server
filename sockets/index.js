@@ -25,7 +25,7 @@ module.exports = function(io) {
     socket.on('action', (action)=> {
       if(action.type === 'server/export_master_update'){
         realArray[action.payload.index] = action.payload.data
-        io.emit('update', {index: action.payload.index, data: action.payload.data})
+        io.emit('update', converter(action.payload))
         io.emit('action', {type:'server/import_master_update', data: realArray})
       }
     })
@@ -36,4 +36,24 @@ module.exports = function(io) {
       io.emit('users', {concurrentUsers: concurrentUsers})
     });
   });
+
+  function converter(input){
+    const index = input.index
+    const color = input.data.backgroundColor
+    const findMultiDimArray=(i)=>{
+      const RGBdata = {x:0,y:0}
+      if (i<64){
+        let base =i+100
+        RGBdata.x=base%64
+      } else {
+        RGBdata.x= i %64
+      }
+      RGBdata.y = (i-RGBdata.x)/64
+      console.log(RGBdata)
+      return RGBdata
+    }
+    const rgb = color.match(/\d+/g)
+    const output = [findMultiDimArray(index).x, findMultiDimArray(index).y, rgb[0], rgb[1], rgb[2]]
+    return output
+  }
 }
