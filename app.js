@@ -20,12 +20,12 @@ sockets(io);
 
 app.use(cors({
   credentials: true,
-  origin: '*'
-}));
+  origin: 'http://localhost:3001, https://constellation-68303.firebaseapp.com'
+}))
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.COOKIE_SECRET))
 
 app.use('/', index);
 app.use('/auth', auth)
@@ -38,12 +38,13 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  res.status(err.status || 500);
-  res.render('error');
-});
+  res.status(500)
+  // res.status(err.status || res.statusCode || 500)
+  res.json({
+    message: err.message,
+    error: req.app.get('env') === 'development' ? err : {}
+  })
+})
 
 module.exports = {
   app,

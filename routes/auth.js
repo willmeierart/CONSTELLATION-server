@@ -1,13 +1,11 @@
 var express = require('express');
 var router = express.Router();
 const dotenv = require('dotenv').config()
-const bcrypt = require('bcrypt')
 
-/* GET home page. */
-router.post('/auth', function(req, res, next) {
+router.post('/', function(req, res, next) {
+  console.log(req.body, process.env.PASSWORD);
     const setCookies = (req, res) => {
-    res.cookie("connected", bcrypt.hash(req.body.password, 4), {
-      httpOnly: true,
+    res.cookie("connected", req.body.password, {
       secure: true,
       signed: true
     })
