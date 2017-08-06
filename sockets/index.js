@@ -43,7 +43,7 @@ module.exports = function(io) {
     const findMultiDimArray=(i)=>{
       const RGBdata = {x:0,y:0}
       if (i<64){
-        let base =i+101
+        let base =i+64
         RGBdata.x=base%64
       } else {
         RGBdata.x= i %64
