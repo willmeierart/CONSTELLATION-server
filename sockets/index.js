@@ -16,14 +16,15 @@ module.exports = function(io) {
   io.on('connection', function (socket) {
     console.log('Client connected:', socket.id);
     //send array state to user on making socket connection
-    socket.broadcast.to(socket.id).emit('pi', {data: realArray})
-    socket.broadcast.to(socket.id).emit('action', {type:'server/import_master_update', data: realArray})
+    //io.emit('pi', {data: realArray})
+    //socket.broadcast.to(socket.id).emit('action', {type:'server/import_master_update', data: realArray})
     concurrentUsers++
     io.emit('users', {concurrentUsers: concurrentUsers})
 
     socket.on('action', (action)=> {
       if(action.type === 'server/export_master_update'){
         realArray[action.payload.index] = action.payload.data
+        io.emit('init', {data: realArray})
         io.emit('update', {index: action.payload.index, data: action.payload.data})
         io.emit('action', {type:'server/import_master_update', data: realArray})
       }
