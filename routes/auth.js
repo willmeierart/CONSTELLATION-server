@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const dotenv = require('dotenv').config()
 
 router.post('/', function(req, res, next) {
   console.log(req.body, process.env.PASSWORD);

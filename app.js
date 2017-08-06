@@ -5,6 +5,7 @@
  const bodyParser = require('body-parser');
  const http = require('http');
  const cors = require('cors')
+require('dotenv').config()
 
 
 const auth = require('./routes/auth')
@@ -20,7 +21,7 @@ sockets(io);
 
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:3001, https://constellation-68303.firebaseapp.com'
+  origin: '*'
 }))
 
 app.use(bodyParser.json());
