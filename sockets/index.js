@@ -24,7 +24,7 @@ module.exports = function(io) {
     }
     io.emit('init', {data: initArray})
     concurrentUsers++
-    io.emit('users', {concurrentUsers: concurrentUsers})
+    //io.emit('users', {concurrentUsers: concurrentUsers})
 
     socket.on('action', (action)=> {
       if(action.type === 'server/export_master_update'){
@@ -48,7 +48,7 @@ module.exports = function(io) {
     socket.on('disconnect', function (data) {
       console.log('Client disconnected:', socket.id);
       concurrentUsers--
-      io.emit('users', {concurrentUsers: concurrentUsers})
+      //io.emit('users', {concurrentUsers: concurrentUsers})
     });
   });
 
