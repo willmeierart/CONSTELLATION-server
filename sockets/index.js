@@ -22,7 +22,7 @@ module.exports = function(io) {
     for(let pixel in realArray){
       initArray.push(converter({index: pixel, data: realArray[pixel]}))
     }
-    io.emit('init', {data: realArray})
+    io.emit('init', {data: initArray})
     concurrentUsers++
     io.emit('users', {concurrentUsers: concurrentUsers})
 
