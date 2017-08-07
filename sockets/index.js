@@ -3,7 +3,7 @@ module.exports = function(io) {
     const makeDummyArray=()=>{
       const initialState = []
       for (let i = 0; i < 2048; i++){
-        initialState.push({backgroundColor: 'rgb(255,255,255)'})
+        initialState.push({backgroundColor: 'rgb(0,0,0)'})
       }
       return initialState
     }
