@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/', function(req, res, next) {
-  console.log(req.body, process.env.PASSWORD);
+  //console.log(req.body, process.env.PASSWORD);
     const setCookies = (req, res) => {
     res.cookie("connected", req.body.password, {
       secure: true,
