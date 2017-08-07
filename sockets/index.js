@@ -13,7 +13,22 @@ module.exports = function(io) {
   let realArray = initializeArray()
   let concurrentUsers = 0
 
+  var users = io.of('/users');
+  users.on('connection', function(socket){
+    console.log('someone connected to users');
+    concurrentUsers++
+    users.emit('users', {concurrentUsers: concurrentUsers})
+
+
+    socket.on('disconnect', function (data) {
+      console.log('Client disconnected:', socket.id);
+      concurrentUsers--
+      users.emit('users', {concurrentUsers: concurrentUsers})
+    });
+  });
+
   io.on('connection', function (socket) {
+
     console.log('Client connected:', socket.id);
     //send array state to user on making socket connection
     //io.emit('pi', {data: realArray})
@@ -24,7 +39,7 @@ module.exports = function(io) {
       //console.log(initArray[pixel])
     }
     io.emit('init', {data: initArray})
-    concurrentUsers++
+    //concurrentUsers++
     //io.emit('users', {concurrentUsers: concurrentUsers})
 
     socket.on('action', (action)=> {
@@ -48,7 +63,7 @@ module.exports = function(io) {
 
     socket.on('disconnect', function (data) {
       console.log('Client disconnected:', socket.id);
-      concurrentUsers--
+      //concurrentUsers--
       //io.emit('users', {concurrentUsers: concurrentUsers})
     });
   });
