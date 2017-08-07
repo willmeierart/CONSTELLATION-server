@@ -21,6 +21,7 @@ module.exports = function(io) {
     let initArray = []
     for(let pixel in realArray){
       initArray.push(converter({index: pixel, data: realArray[pixel]}))
+      //console.log(initArray[pixel])
     }
     io.emit('init', {data: initArray})
     concurrentUsers++
@@ -57,14 +58,17 @@ module.exports = function(io) {
     const index = input.index
     const color = input.data.backgroundColor
     const findMultiDimArray=(i)=>{
-      const RGBdata = {x:0,y:0}
+      // const RGBdata = {x:0,y:0}
+      const RGBdata = {}
       if (i<64){
         let base =i+64
-        RGBdata.x=base%64
+        RGBdata.x=parseInt(i)
+        RGBdata.y=0
       } else {
         RGBdata.x= i %64
+        RGBdata.y = (i-RGBdata.x)/64
       }
-      RGBdata.y = (i-RGBdata.x)/64
+      //console.log(RGBdata.y)
       //console.log(RGBdata)
       return RGBdata
     }
