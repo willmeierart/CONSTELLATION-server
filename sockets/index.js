@@ -18,6 +18,10 @@ module.exports = function(io) {
     //send array state to user on making socket connection
     //io.emit('pi', {data: realArray})
     //socket.broadcast.to(socket.id).emit('action', {type:'server/import_master_update', data: realArray})
+    let initArray = []
+    for(let pixel in realArray){
+      initArray.push(converter({index: pixel, data: realArray[pixel]}))
+    }
     io.emit('init', {data: realArray})
     concurrentUsers++
     io.emit('users', {concurrentUsers: concurrentUsers})
