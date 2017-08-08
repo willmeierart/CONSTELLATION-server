@@ -15,6 +15,6 @@ module.exports = {
   },
 
   deletePictureById(id){
-    return knex('pictures').where('id', id);
+    return knex('pictures').where('id', id).del();
   }
 };
