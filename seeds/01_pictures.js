@@ -6,7 +6,7 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('pictures').insert([
         {
-          json: JSON.stringify([{"backgroundColor":"rgb(0,0,0)"},{"backgroundColor":"rgb(121,210,210)"}])
+          data: JSON.stringify([{"backgroundColor":"rgb(0,0,0)"},{"backgroundColor":"rgb(121,210,210)"}])
         },
       ]);
     });

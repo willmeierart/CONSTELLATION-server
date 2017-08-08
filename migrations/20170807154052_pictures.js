@@ -1,7 +1,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('pictures', (table) => {
-    table.increments("id").primary();
-    table.string("json");
+    table.increments('id').primary();
+    table.json('data');
   })
 }
 

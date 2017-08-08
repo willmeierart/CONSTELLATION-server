@@ -13,7 +13,8 @@ router.get('/thumbnails', (req,res) => {
 
 router.post('/thumbnails', (req, res, next) => {
     queries.create(req.body).then(picture => {
-      res.json(picture[0]);
+      //console.log(picture)
+      res.json(picture);
     })
   })
 

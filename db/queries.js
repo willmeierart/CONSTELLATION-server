@@ -8,6 +8,7 @@ module.exports = {
   },
   create(picture){
   const pictureNew = JSON.stringify(picture)
-  return knex('pictures').insert(pictureNew, '*');
+  // console.log(pictureNew)
+  return knex('pictures').insert({data:pictureNew}, '*');
 },
 }
