@@ -45,20 +45,14 @@ module.exports = function(io) {
     socket.on('action', (action)=> {
       if(action.type === 'server/export_master_update'){
         //console.log(action.payload)
-        const copyArray = realArray.slice()
-        //realArray[action.payload.index] = action.payload.data
-        copyArray[action.payload.index] = action.payload.data
+        realArray[action.payload.index] = action.payload.data
         //io.emit('update', converter(action.payload))
         //io.emit('update', {index: action.payload.index, data: action.payload.data})
         let data = converter(action.payload)
         if(data){
           io.emit('update', {data: data})
         }
-        //console.log(copyArray)
-        //console.log(copyArray)
-        //io.emit('action', {type:'server/import_master_update', data: realArray})
-        io.emit('action', {type:'server/import_master_update', data: copyArray})
-        realArray=copyArray
+        io.emit('action', {type:'server/import_master_update', data: realArray})
       }
     })
 
