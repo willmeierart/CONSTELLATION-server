@@ -55,6 +55,7 @@ module.exports = function(io) {
           io.emit('update', {data: data})
         }
         //console.log(copyArray)
+        //console.log(copyArray)
         //io.emit('action', {type:'server/import_master_update', data: realArray})
         io.emit('action', {type:'server/import_master_update', data: copyArray})
         realArray=copyArray
