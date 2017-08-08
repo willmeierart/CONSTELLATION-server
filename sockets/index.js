@@ -14,7 +14,7 @@ module.exports = function(io) {
 
   io.on('connection', function (socket) {
 
-    socket.emit('users', {concurrentUsers: io.engine.clientsCount})
+    io.emit('users', {concurrentUsers: io.engine.clientsCount})
 
     console.log('Client connected:', socket.id);
     //send array state to user on making socket connection
@@ -45,7 +45,7 @@ module.exports = function(io) {
 
     socket.on('disconnect', function (data) {
       console.log('Client disconnected:', socket.id);
-      socket.emit('users', {concurrentUsers: io.engine.clientsCount})
+      io.emit('users', {concurrentUsers: io.engine.clientsCount})
       //concurrentUsers--
       //io.emit('users', {concurrentUsers: concurrentUsers})
     });
