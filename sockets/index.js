@@ -11,19 +11,16 @@ module.exports = function(io) {
   }
 
   let realArray = initializeArray()
-  let concurrentUsers = 0
 
   var users = io.of('/users');
   users.on('connection', function(socket){
     console.log('someone connected to users');
-    concurrentUsers++
-    users.emit('users', {concurrentUsers: concurrentUsers})
+    users.emit('users', {concurrentUsers: io.engine.clientsCount})
 
 
     socket.on('disconnect', function (data) {
       console.log('Client disconnected:', socket.id);
-      concurrentUsers--
-      users.emit('users', {concurrentUsers: concurrentUsers})
+      users.emit('users', {concurrentUsers: io.engine.clientsCount})
     });
   });
 
